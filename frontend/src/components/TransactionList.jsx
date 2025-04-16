@@ -16,10 +16,7 @@ export default function TransactionList({ transactions, onDelete }) {
             <div className="flex items-center gap-4">
               <span>${tx.amount}</span>
 
-              <button onClick={() => onDelete(tx._id)} className="text-red-500">
-              <DeleteButton />
-              </button>
-
+              <DeleteButton onClick={() => onDelete(tx._id)} />
               
 
             </div>
