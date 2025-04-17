@@ -3,25 +3,28 @@ require('dotenv').config()
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+
 const app = express();
 
-console.log("PORT from env:", process.env.PORT); 
-const port = 5000;
+
+const port =process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect('mongodb+srv://20ra5a0505:20ra5a0505@cluster0.qymybki.mongodb.net/', {
+mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   
 });
 
 
+
 const Transaction = mongoose.model('Transaction', {
   amount: Number,
   date: Date,
   description: String,
+  category: String,
 });
 
 app.get('/transactions', async (req, res) => {
@@ -30,8 +33,8 @@ app.get('/transactions', async (req, res) => {
 });
 
 app.post('/transactions', async (req, res) => {
-  const { amount, date, description } = req.body;
-  const newTx = new Transaction({ amount, date, description });
+  const { amount, date, description,category  } = req.body;
+  const newTx = new Transaction({ amount, date, description,category  });
   await newTx.save();
   res.json(newTx);
 });

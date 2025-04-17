@@ -1,35 +1,52 @@
 
 
+
 import { useEffect, useState } from 'react';
 import TransactionForm from './components/TransactionForm';
 import TransactionList from './components/TransactionList';
-import ExpenseChart from './components/ExpenseChart';
+import MonthlyBarChart from './components/MonthlyBarChart';
+import CategoryPieChart from './components/CategoryPieChart';
+import Dashboard from './components/Dashboard';
 
-export default function App() {
+function App() {
   const [transactions, setTransactions] = useState([]);
 
-  const fetchTransactions = async () => {
-    const res = await fetch('http://localhost:5000/transactions');
-    const data = await res.json();
-    setTransactions(data);
-  };
-
   useEffect(() => {
-    fetchTransactions();
+    fetch('http://localhost:5000/transactions')
+      .then(res => res.json())
+      .then(setTransactions);
   }, []);
 
-  const handleAdd = (tx) => setTransactions([tx, ...transactions]);
+  const handleAdd = (newTx) => {
+    setTransactions(prev => [newTx, ...prev]);
+  };
+
   const handleDelete = async (id) => {
     await fetch(`http://localhost:5000/transactions/${id}`, { method: 'DELETE' });
-    setTransactions(transactions.filter((t) => t._id !== id));
+    setTransactions(prev => prev.filter(tx => tx._id !== id));
   };
 
   return (
-    <div className="max-w-xl mx-auto p-4 space-y-4">
-      <h1 className="text-4xl text-center">Personal Finance Tracker</h1>
+    <div className="p-4 max-w-4xl mx-auto">
+      <h1 className="text-4xl font-bold mb-2">Personal Finance Visualizer</h1>
       <TransactionForm onAdd={handleAdd} />
+      <Dashboard transactions={transactions} />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+        <MonthlyBarChart transactions={transactions} />
+        <CategoryPieChart transactions={transactions} />
+      </div>
       <TransactionList transactions={transactions} onDelete={handleDelete} />
-      <ExpenseChart transactions={transactions} />
     </div>
   );
 }
+
+export default App;
+
+
+
+
+
+
+
+
+

@@ -1,10 +1,12 @@
+
+
 import DeleteButton from "./DeleteButton";
 
 
 
 export default function TransactionList({ transactions, onDelete }) {
     return (
-      <div className="space-y-2">
+      <div className="space-y-2 mt-4">
 
         {transactions.map((tx) => (
           <div key={tx._id} className="p-2 border rounded flex justify-between items-center">
@@ -14,7 +16,7 @@ export default function TransactionList({ transactions, onDelete }) {
             </div>
 
             <div className="flex items-center gap-4">
-              <span>${tx.amount}</span>
+              <span>₹{tx.amount}</span>
 
               <DeleteButton onClick={() => onDelete(tx._id)} />
               
