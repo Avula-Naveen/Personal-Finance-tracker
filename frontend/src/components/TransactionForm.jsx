@@ -27,7 +27,7 @@ export default function TransactionForm({ onAdd }) {
 
     if (Object.keys(newErrors).length > 0) return;
 
-    const res = await fetch("http://localhost:5000/transactions", {
+    const res = await fetch("https://personal-finance-tracker-backend-7xyj.onrender.com/transactions", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

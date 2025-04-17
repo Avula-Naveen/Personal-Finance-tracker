@@ -12,7 +12,7 @@ function App() {
   const [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/transactions')
+    fetch('https://personal-finance-tracker-backend-7xyj.onrender.com/transactions')
       .then(res => res.json())
       .then(setTransactions);
   }, []);
@@ -22,7 +22,7 @@ function App() {
   };
 
   const handleDelete = async (id) => {
-    await fetch(`http://localhost:5000/transactions/${id}`, { method: 'DELETE' });
+    await fetch(`https://personal-finance-tracker-backend-7xyj.onrender.com/transactions/${id}`, { method: 'DELETE' });
     setTransactions(prev => prev.filter(tx => tx._id !== id));
   };
 
